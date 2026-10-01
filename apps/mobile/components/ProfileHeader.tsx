@@ -2,11 +2,16 @@ import React, { useMemo } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { useTheme } from "../theme/useTheme";
+import { BlurhashImage } from "./BlurhashImage";
 
 export interface ProfileData {
   address: string;
   username?: string | null;
   bio?: string | null;
+  /** Remote URI for the profile avatar image. */
+  avatarUri?: string | null;
+  /** Blurhash placeholder shown while the avatar image loads. */
+  avatarBlurhash?: string | null;
 }
 
 interface Props {
@@ -48,9 +53,21 @@ export default function ProfileHeader({
   return (
     <View style={styles.container}>
       <View style={styles.row}>
-        <View style={styles.avatar}>
-          <Text style={styles.avatarText}>{(profile.username ?? "").charAt(0).toUpperCase() || "?"}</Text>
-        </View>
+        {profile.avatarUri || profile.avatarBlurhash ? (
+          <BlurhashImage
+            uri={profile.avatarUri}
+            blurhash={profile.avatarBlurhash}
+            width={72}
+            height={72}
+            borderRadius={36}
+            containerStyle={styles.avatarContainer}
+            accessibilityLabel={`${profile.username ?? profile.address}'s avatar`}
+          />
+        ) : (
+          <View style={styles.avatar}>
+            <Text style={styles.avatarText}>{(profile.username ?? "").charAt(0).toUpperCase() || "?"}</Text>
+          </View>
+        )}
         <View style={styles.meta}>
           <Text style={styles.username}>{profile.username ?? shortAddress}</Text>
           <Text style={styles.address}>{shortAddress}</Text>
@@ -121,6 +138,9 @@ function createStyles(theme: ReturnType<typeof useTheme>["theme"]) {
       backgroundColor: theme.colors.brand.primary,
       alignItems: "center",
       justifyContent: "center",
+      marginRight: 12,
+    },
+    avatarContainer: {
       marginRight: 12,
     },
     avatarText: {
