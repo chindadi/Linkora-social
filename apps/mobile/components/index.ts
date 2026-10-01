@@ -10,4 +10,7 @@ export { MiniAppIcon } from "./MiniAppIcon";
 export { TipModal } from "./TipModal";
 export { AnalyticsCard } from "./AnalyticsCard";
 export { BlurhashImage } from "./BlurhashImage";
+export { FeeTooltip } from "./FeeTooltip";
 export type { MiniApp } from "./MiniAppIcon";
+export { NotificationDetailSheet } from "./NotificationDetailSheet";
+export type { NotificationItem } from "./NotificationDetailSheet";
